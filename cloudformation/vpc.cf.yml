@@ -1,0 +1,125 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: VPC Stack for Gamera (check list)
+
+Parameters:
+
+    VpcCidrBlock:
+      Description: VPC CidrBlock
+      Type: String
+      Default: 10.9.0.0/16
+    SubnetACidrBlock:
+      Description: VPC CidrBlock
+      Type: String
+      Default: 10.9.1.0/24
+    SubnetCCidrBlock:
+      Description: VPC CidrBlock
+      Type: String
+      Default: 10.9.2.0/24
+    OfficeIpAddress:
+      Type: String
+      Default: 210.251.87.242/32
+      Description: "Office IP Address"
+
+Resources:
+
+  Vpc:
+    Type: 'AWS::EC2::VPC'
+    Properties:
+      CidrBlock: !Ref VpcCidrBlock
+      EnableDnsSupport: True
+      EnableDnsHostnames: True
+      Tags:
+         - Key: "Name"
+           Value: "GameraVpc"
+  
+  # Subnet
+  SubnetA:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      AvailabilityZone: ap-northeast-1a
+      CidrBlock: !Ref SubnetACidrBlock
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        - Key: "Name"
+          Value: "GameraSubnetA"
+      VpcId: !Ref Vpc
+
+  # Subnet
+  SubnetC:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      AvailabilityZone: ap-northeast-1c
+      CidrBlock: !Ref SubnetCCidrBlock
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        - Key: "Name"
+          Value: "GameraSubnetC"
+      VpcId: !Ref Vpc
+
+  # Secrurity Group
+  InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: gamera-security-group
+      GroupDescription: "gamera security group"
+      VpcId: !Ref Vpc
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: !Ref OfficeIpAddress
+        - 
+          IpProtocol: tcp
+          FromPort: '80'
+          ToPort: '80'
+          CidrIp: !Ref OfficeIpAddress
+        - 
+          IpProtocol: tcp
+          FromPort: '443'
+          ToPort: '443'
+          CidrIp: !Ref OfficeIpAddress
+
+  # InternetGateway
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: "Name"
+          Value: "GameraInternetGateway"
+  
+  # InternetGatewayAttachment
+  InternetGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref Vpc
+      InternetGatewayId: !Ref InternetGateway
+
+  # routing setting
+  RouteTable:
+    Type: 'AWS::EC2::RouteTable'
+    Properties:
+      VpcId: !Ref Vpc
+      Tags:
+        - Key: "Name"
+          Value: "GameraRouteTable"
+
+  Route:
+    Type: 'AWS::EC2::Route'
+    Properties:
+      RouteTableId: !Ref RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  # Subnet and route table are association
+  RouteTableAssociationA:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref SubnetA
+      RouteTableId: !Ref RouteTable
+
+  # Subnet and route table are association
+  RouteTableAssociationC:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref SubnetC
+      RouteTableId: !Ref RouteTable

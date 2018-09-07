@@ -1,0 +1,34 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: "Use check list information in Gamera ECS service"
+
+Parameters:
+
+  Cluster:
+    Type: String
+    Default: GameraCluster
+  ELBTarget:
+    Type: String
+    Default: arn:aws:elasticloadbalancing:ap-northeast-1:899763172859:targetgroup/GameraALBTargets/a6071d68a7b92af7
+  TaskDefinition:
+    Type: String
+    Default: gamera-ecs-task-GameraWeb-1L07Y9JAQISEZ:1
+  ContainerName:
+    Type: String
+    Default: gameraweb
+  ECSRole:
+    Type: String
+    Default: gamera-ecs-role-ECSServiceRole-KKQ199IFBY6F
+  
+Resources:
+  Rails:
+    Type: AWS::ECS::Service
+    Properties:
+      Cluster: !Ref Cluster
+      LaunchType: EC2
+      DesiredCount: 1
+      LoadBalancers:
+        - ContainerName: !Ref ContainerName
+          ContainerPort: 3000
+          TargetGroupArn: !Ref ELBTarget
+      Role: !Ref ECSRole
+      TaskDefinition: !Ref TaskDefinition

@@ -1,0 +1,25 @@
+<%= form_for @project, html: { class: 'project_form' } do |f| %>
+  <div class="form-group">
+    <%= f.label :title %>
+    <%= f.text_field :title, max_length: 255, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :service_id %>
+    <%= f.collection_select(:service_id, Service.all, :id, :name, prompt: '選択してください') %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :owner %>
+    <%= f.text_field :owner, max_length: 255, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :url %>
+    <%= f.text_field :url, max_length: 200, class: 'form-control' %>
+  </div>
+
+  <div style="text-align: center; margin: 65px 0px;">
+    <span class="pulse-save ok">SAVE</span>
+  </div>
+<% end %>

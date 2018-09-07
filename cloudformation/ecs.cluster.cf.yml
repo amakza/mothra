@@ -1,0 +1,16 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: "Use check list information in Gamera ECS cluster"
+
+Parameters:
+
+  ClusterName:
+    Type: String
+    Default: GameraCluster
+    Description: Cluster name
+
+Resources:
+
+  ESCCluter:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: !Ref ClusterName

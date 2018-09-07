@@ -1,0 +1,97 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: "Use check list information in Gamera database"
+
+Parameters:
+
+  RdsAllocatedStorage:
+    Default: '20'
+    Type: String
+  RdsInstanceType:
+    Description: RDS Instance Type
+    Type: String
+    AllowedValues:
+      - db.t2.micro
+      - db.t2.small
+    Default: db.t2.small
+  RdsBackupRetentionPeriod:
+    Default: '7'
+    Type: String
+  MySQLVersion:
+    Type: String
+    Default: '5.7.19'
+  RdsUserId:
+    Description: RDS UserId
+    Type: String
+    Default: gamera
+  RdsPassword:
+    NoEcho: true
+    Type: String
+    Description: RDS Password
+  InstanceName: 
+    Type: String
+    Default: gamera-rds-instance
+    Description: DBName and DBInstanceIdentifier
+  DBName:
+    Type: String
+    Default: GameraRdsInstance
+    Description: DBName and DBInstanceIdentifier
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: VPC ID
+  RdsSubnets:
+    Type: List<AWS::EC2::Subnet::Id>
+    Description : "The list of SubnetIds, one in each AZ in the region in your VPC"
+  RdsSecurityGroup:
+    Type: List<AWS::EC2::SecurityGroup::Id>
+    Description : The list of SubnetIds, one in each AZ in the region in your VPC
+  
+
+Resources:
+
+  RdsSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: Subnets available for the RDS DB Instance
+      SubnetIds: !Ref RdsSubnets
+
+  RdsVpcSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: default
+      VpcId: !Ref VpcId
+
+  RdsInstance:
+    Type: AWS::RDS::DBInstance
+    Properties: 
+      AllocatedStorage: !Ref RdsAllocatedStorage
+      DBInstanceClass: !Ref RdsInstanceType
+      DBInstanceIdentifier: !Ref InstanceName
+      DBName: !Ref DBName
+      AllowMajorVersionUpgrade: false
+      AutoMinorVersionUpgrade: false
+      BackupRetentionPeriod: !Ref RdsBackupRetentionPeriod
+      DBParameterGroupName: !Ref RdsParameter
+      Engine: MySQL
+      EngineVersion: !Ref MySQLVersion
+      MasterUsername: !Ref RdsUserId
+      MasterUserPassword: !Ref RdsPassword
+      MultiAZ: 'false'
+      PreferredBackupWindow: '18:00-19:00'
+      PubliclyAccessible: 'false'
+      StorageEncrypted: 'false'
+      StorageType: 'gp2'
+      VPCSecurityGroups:
+        - !Ref RdsVpcSecurityGroup
+      DBSubnetGroupName: !Ref RdsSubnetGroup
+      Tags:
+        - Key: Name
+          Value: gamera-rds-instance
+
+  RdsParameter:
+    Type: 'AWS::RDS::DBParameterGroup'
+    Properties:
+      Description: 'parameters for Gamera'
+      Family: 'MySQL5.7'
+      Parameters:
+        query_cache_type: '1'
+        time_zone: 'Asia/Tokyo'

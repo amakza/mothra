@@ -1,0 +1,71 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: "Use check list information in Gamera ECS instance"
+
+Parameters:
+
+  AvailabilityZone:
+    Type: AWS::EC2::AvailabilityZone::Name
+    Default: ap-northeast-1a
+  ImageId:
+    Type: AWS::EC2::Image::Id
+    Default: ami-9cd57ffd
+  InstanceType:
+    Type : String
+    Default: t2.medium
+    AllowedValues:
+      - t2.small
+      - t2.medium
+  KeyName:
+    Type: AWS::EC2::KeyPair::KeyName
+    # 変更しなければならない
+    Default: mayama-tech-lab
+  SecurityGroupId:
+    Type: CommaDelimitedList
+    Default: sg-00d5c1835e332eb75
+  SubnetId:
+    Type: AWS::EC2::Subnet::Id
+    # 要変更
+    Default: subnet-02bf0d91aaad682f0
+  ECSCluster:
+    Type: String
+    Default: GameraCluster
+  EC2Role:
+    Type: String
+    Default: gamera-ecs-role-EC2Role-1JBVTVMWLYOOE
+
+Resources:
+
+  Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: !Ref AvailabilityZone
+      ImageId: !Ref ImageId
+      InstanceType: !Ref InstanceType
+      KeyName: !Ref KeyName
+      BlockDeviceMappings:
+        - DeviceName: /dev/xvda
+          Ebs:
+            DeleteOnTermination: false
+            VolumeSize: 100
+      InstanceInitiatedShutdownBehavior: stop
+      Monitoring: true
+      SourceDestCheck: true
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash -xe
+          echo ECS_CLUSTER=${ECSCluster} >> /etc/ecs/ecs.config
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: true
+          DeviceIndex: 0
+          GroupSet: !Ref SecurityGroupId
+          SubnetId: !Ref SubnetId
+      IamInstanceProfile: !Ref EC2InstanceProfile
+      Tags:
+        - Key: Name
+          Value: gamera-instance01
+  EC2InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: /
+      Roles:
+        - !Ref EC2Role

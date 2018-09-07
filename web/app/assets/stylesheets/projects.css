@@ -1,0 +1,15 @@
+.project_form {
+  width: 50%;
+  margin: auto;
+  padding: 10px;
+}
+.project_form select {
+  display: block;
+  height: 2.5em;
+  width: 100%;
+  box-shadow: 1px 3px 30px 2px #0e8496;
+}
+
+.project_form input {
+  box-shadow: 1px 3px 30px 2px #0e8496;
+}

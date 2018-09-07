@@ -1,0 +1,75 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: "Use check list information in Gamera ECS ELB"
+
+Parameters:
+
+  InstanceA:
+    Type: String
+    Default: i-0448fc03bf21a8b0b
+  VpcId:
+    Type: List<AWS::EC2::VPC::Id>
+    Default: vpc-0fa4e93d6824a1819
+  SubnetIdA:
+    Type: List<AWS::EC2::Subnet::Id>
+    Default: subnet-02bf0d91aaad682f0
+  SubnetIdC:
+    Type: List<AWS::EC2::Subnet::Id>
+    Default: subnet-09f18555b064d746a
+  SecurityGroupId:
+    Type: List<AWS::EC2::SecurityGroup::Id>
+    Default: sg-00d5c1835e332eb75
+  # まだ入れていない(tech-lab)
+  SSL:
+    Type: String
+    Default: arn:aws:acm:ap-northeast-1:899763172859:certificate/3b7797ef-fb42-46ca-87af-d7c9792a1138
+
+Resources:
+
+  GameraFrontALB:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: gamera-front-alb
+      Type: application
+      Subnets:
+        - !Ref SubnetIdA
+        - !Ref SubnetIdC
+      SecurityGroups: 
+        - !Ref SecurityGroupId
+  GameraALBListener:
+    Type: "AWS::ElasticLoadBalancingV2::Listener"
+    Properties:
+      DefaultActions:
+        - TargetGroupArn: !Ref GameraALBTargets
+          Type: forward
+      LoadBalancerArn: !Ref GameraFrontALB
+      Port: '80'
+      Protocol: HTTP
+  GameraALBListenerRule:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    DependsOn: GameraALBListener
+    Properties:
+      Actions:
+      - Type: forward
+        TargetGroupArn: !Ref GameraALBTargets
+      Conditions:
+      - Field: path-pattern
+        Values: [/]
+      ListenerArn: !Ref GameraALBListener
+      Priority: 1
+  GameraALBTargets:
+    Type: "AWS::ElasticLoadBalancingV2::TargetGroup"
+    DependsOn: GameraFrontALB
+    Properties:
+      Name: GameraALBTargets
+      Port: 80
+      Protocol: HTTP
+      VpcId: !Ref VpcId
+      HealthCheckPath: /
+      HealthCheckIntervalSeconds: 10
+      HealthCheckPort: traffic-port
+      HealthCheckProtocol: HTTP
+      HealthCheckTimeoutSeconds: 5
+      HealthyThresholdCount: 5
+      Targets:
+        - Id: !Ref InstanceA
+          Port: '80'

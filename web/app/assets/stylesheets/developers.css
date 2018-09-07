@@ -1,0 +1,26 @@
+#main {
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 0;
+}
+
+.icon {
+    font-size: 2em;
+    text-align: right;
+}
+.icon i {
+  margin: 0 5px
+}
+
+.icon i.fa-check-circle {
+  color: #00ab0d;
+}
+.icon i.fa-times-circle {
+  color: #ff0707;
+}
+.icon i.fa-user-check {
+  color: #ccc502;
+}
+.icon i.fa-comment-dots {
+  color: #e0e0e0;
+}

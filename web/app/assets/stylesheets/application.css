@@ -1,0 +1,372 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+@import "https://fonts.googleapis.com/css?family=Gruppo:300,400,500,600,700";
+body {
+  font-family: 'Gruppo', sans-serif;
+  background-color: #1d1d1d;
+  color: #00c1c1;
+}
+
+p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1em;
+  font-weight: 300;
+  line-height: 1.7em;
+}
+
+a,
+a:hover,
+a:focus {
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.navbar {
+  padding: 15px 10px;
+  border: none;
+  border-radius: 0;
+  margin-bottom: 40px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-btn {
+  box-shadow: none;
+  outline: none !important;
+  border: none;
+}
+
+.line {
+  width: 100%;
+  height: 1px;
+  border-bottom: 1px dashed #ddd;
+  margin: 40px 0;
+}
+
+i,
+span {
+  display: inline-block;
+}
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+
+.wrapper {
+  display: flex;
+  align-items: stretch;
+}
+
+#sidebar {
+  min-width: 250px;
+  max-width: 250px;
+  background: #010101;
+  color: #fff;
+  transition: all 0.3s;
+}
+
+#sidebar.active {
+  min-width: 80px;
+  max-width: 80px;
+  text-align: center;
+}
+
+#sidebar.active .sidebar-header h3 {
+  display: none;
+}
+
+#sidebar.active .sidebar-header strong {
+  display: block;
+}
+
+#sidebar ul li a {
+  text-align: left;
+}
+
+#sidebar.active ul li a {
+  text-align: center;
+}
+
+#sidebar.active ul li a span {
+  display: none;
+}
+
+#sidebar.active ul li a i {
+  margin-right: 0;
+  display: block;
+  font-size: 1.8em;
+  margin-bottom: 5px;
+}
+
+#sidebar .sidebar-header {
+  padding: 20px;
+  background: #010101;
+}
+
+#sidebar .sidebar-header strong {
+  display: none;
+  font-size: 1.8em;
+}
+
+#sidebar ul.components {
+  padding: 20px 0;
+  border-bottom: 1px solid #47748b;
+}
+
+#sidebar ul li a {
+  padding: 25px 10px;
+  font-size: 1.1em;
+  display: block;
+}
+
+#sidebar ul li a:hover {
+  color: #7386D5;
+  background: #fff;
+}
+
+#sidebar ul li a i {
+  margin-right: 10px;
+}
+
+#sidebar ul li.active>a,
+a[aria-expanded="true"] {
+  color: #fff;
+  background: #6d7fcc;
+}
+
+
+/* ---------------------------------------------------
+    SIDEBAR BUTTON STYLE
+----------------------------------------------------- */
+#sidebarCollapse {
+  width: 35px;
+  height: 35px;
+  background: inherit;
+  float: right;
+}
+
+#sidebarCollapse span {
+  width: 80%;
+  height: 2px;
+  display: block;
+  margin: 5px auto;
+  opacity: 1;
+  background: #555;
+  transition: all 0.3s;
+  transform: none;
+}
+
+/* Arrow to the left */
+#sidebarCollapse:hover span:first-of-type {
+  transform: rotate(-45deg) translate(-4px, -2px);
+}
+#sidebarCollapse:hover span:last-of-type {
+  transform: rotate(45deg) translate(-4px, 2px);
+}
+
+/* Arrow to the right */
+#sidebarCollapse.active:hover span:first-of-type {
+  transform: rotate(45deg) translate(3px, -2px);
+}
+#sidebarCollapse.active:hover span:last-of-type {
+  transform: rotate(-45deg) translate(4px, 2px);
+}
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+
+#content {
+  width: 100%;
+  padding: 20px;
+  min-height: 100vh;
+  transition: all 0.3s;
+}
+
+/* ---------------------------------------------------
+    MEDIAQUERIES
+----------------------------------------------------- */
+
+@media (max-width: 768px) {
+  #sidebar {
+    min-width: 80px;
+    max-width: 80px;
+    text-align: center;
+    margin-left: -80px !important;
+  }
+  .dropdown-toggle::after {
+    top: auto;
+    bottom: 10px;
+    right: 50%;
+    -webkit-transform: translateX(50%);
+    -ms-transform: translateX(50%);
+    transform: translateX(50%);
+  }
+  #sidebar.active {
+    margin-left: 0 !important;
+  }
+  #sidebar .sidebar-header h3,
+  #sidebar .CTAs {
+    display: none;
+  }
+  #sidebar .sidebar-header strong {
+    display: block;
+  }
+  #sidebar ul li a {
+    padding: 20px 10px;
+  }
+  #sidebar ul li a span {
+    font-size: 0.85em;
+  }
+  #sidebar ul li a i {
+    margin-right: 0;
+    display: block;
+  }
+  #sidebar ul ul a {
+    padding: 10px !important;
+  }
+  #sidebar ul li a i {
+    font-size: 1.3em;
+  }
+  #sidebar {
+    margin-left: 0;
+  }
+}
+
+/* ---------------------------------------------------
+    BUTTON STYLE
+----------------------------------------------------- */
+
+.btn-area {
+  text-align: center;
+}
+.btn-area .button {
+  background-color: inherit;
+  border: solid 2px;
+  width: 155px;
+  border-radius: 12px;
+  padding: 5px;
+  margin: 5px 10px;
+}
+.register {
+  border-color:  #00c1c1;
+  color: #00c1c1;
+  box-shadow: 1px 3px 30px 2px #0e8496;
+}
+.save {
+  border-color: #00ab0d;
+  color: #00ab0d;
+  box-shadow: 1px 3px 30px 2px #0d7500;
+}
+.cancel {
+  border-color: #ff0707;
+  color: #ff0707;
+  box-shadow: 1px 3px 30px 2px #c30000;
+}
+.generic {
+  border-color: #e0e0e0;
+  color: #e0e0e0;
+  box-shadow: 1px 3px 30px 2px #adabab;
+}
+.warning {
+  border-color: #e4dd00;
+  color: #e4dd00;
+  box-shadow: 1px 3px 30px 2px #b7b100;
+}
+
+/* Pulsing save button */
+.pulse-save {
+  cursor: pointer;
+  font-size: 0.5em;
+  color: white;
+  font-weight: 100;
+  width: 5.4em;
+  height: 5.4em;
+  line-height: 5.4em;
+  text-align: center;
+  border-radius: 100%;
+  border: 2px solid #00d8ff;
+  box-shadow: 0 0 0 0 #1d1d1d, 0 0 2px 3px #00d8ff, 0 0 4px 25px #1d1d1d, 0 0 1px 32px #1d1d1d, 0 0 32px 25px #00d8ff, 0 0 32px 25px #1d1d1d;
+  animation: pulse 1.4s linear infinite;
+  transition: all 0.3s ease;
+}
+.pulse-save:before {
+  box-sizing: border-box;
+  content: "";
+  border-radius: 100%;
+  animation: rotate 0.45s linear infinite;
+  transition: opacity 1s ease 0.6s,  border 0.4s ease 0s, width 0.4s ease 0.2s, height 0.4s ease 0.2s, margin 0.4s ease 0.2s;
+  position: absolute;
+  width: 4.65em;
+  height: 4.65em;
+  margin-left: -1em;
+  margin-top: 0.1em;
+  border-top: 1px solid #3bff00;
+  border-bottom: 1px solid #ff3f00;
+  /*left: 50%;
+  top: 50%;*/
+}
+.pulse-save.error {
+  border-color: #ff3f00;
+  box-shadow: 0 0 10px 2px #ff3f00;
+  animation: none;
+}
+.pulse-save.error:before {
+  border-color: #ff3f00;
+  opacity: 0;
+  width: 21em;
+  height: 21em;
+  margin-left: -8.5em;
+  margin-top: -8.5em;
+}
+.pulse-save.ok {
+  border-color: #3bff00;
+  box-shadow: 0 0 10px 0px #3bff00;
+  animation: none;
+}
+.pulse-save.ok:before {
+  border-color: #3bff00;
+  opacity: 0;
+  width: 4.8em;
+  height: 4.8em;
+  margin-left: -1.7em;
+  margin-top: 0.1em;
+}
+
+/*@keyframes animationname {keyframes-selector {css-styles;}}
+http://www.w3schools.com/cssref/css3_pr_animation-keyframes.asp*/
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 #1d1d1d, 0 0 2px 3px #00d8ff, 0 0 1px 32px #1d1d1d, 0 0 32px 25px #00d8ff;
+  }
+  49.9% {
+    box-shadow: 0 0 1px 32px #1d1d1d, 0 0 32px 25px #00d8ff, 0 0 1px 64px #1d1d1d, 0 0 60px 25px #00d8ff;
+  }
+  50% {
+    box-shadow: 0 0 0 0 #1d1d1d, 0 0 2px 3px #00d8ff, 0 0 1px 32px #1d1d1d, 0 0 32px 25px #00d8ff;
+  }
+  100% {
+    box-shadow: 0 0 1px 32px #1d1d1d, 0 0 32px 25px #00d8ff, 0 0 1px 64px #1d1d1d, 0 0 60px 25px #00d8ff;
+  }
+}

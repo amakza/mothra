@@ -1,0 +1,8 @@
+ja:
+  activerecord:
+    attributes:
+      project:
+        title: プロジェクト名
+        service_id: サービス
+        owner: 責任者
+        url: URL

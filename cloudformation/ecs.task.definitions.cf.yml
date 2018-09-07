@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: "Use check list information in Gamera ECS task"
+
+Parameters:
+
+  GameContainerName:
+    Type: String
+    Default: gameraweb
+  GameraImage:
+    Type: String
+    Default: 899763172859.dkr.ecr.ap-northeast-1.amazonaws.com/gamera_web:latest
+
+Resources:
+
+  GameraWeb:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      ContainerDefinitions:
+        - Cpu: 1024
+          Memory: 2048
+          EntryPoint: [rails, s, -b, 0.0.0.0, -p, 3000]
+          Name: !Ref GameContainerName
+          Image: !Ref GameraImage
+          PortMappings:
+          - ContainerPort: 3000
+            HostPort: 80
