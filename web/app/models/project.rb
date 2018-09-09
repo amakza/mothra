@@ -16,11 +16,18 @@ class Project < ActiveRecord::Base
     format: { with: /\A(http|https):\/\/.*\Z/, allow_blank: true }
 
   before_save :set_code
+  after_save :create_answers
 
 private
   # Before saving set the code based on the service
   def set_code
     service = Service.find(service_id)
     self.code = "#{service.code}-#{Time.now.strftime('%Y%m%d%H%M%S')}"
+  end
+
+  def create_answers
+    DeveloperAnswer.create_answer_set(self.id)
+    ManagerAnswer.create_answer_set(self.id)
+    QualityControlAnswer.create_answer_set(self.id)
   end
 end

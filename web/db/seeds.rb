@@ -16,3 +16,28 @@ Service.create([
   { name: 'auゲーム',           code: 'GA' },
   { name: 'ゲームギフト',       code: 'GG' }
 ])
+
+QualityPointSection.create([
+  { name: 'Grand Design Review' },
+  { name: 'Development' },
+  { name: 'Infrastructure' },
+  { name: 'Release' }
+])
+
+QualityPoint.create([
+  { section_id: 1, question: 'Section 1 Question 1', is_shown: true, warnings: 'Warning 1' },
+  { section_id: 1, question: 'Section 1 Question 2', is_shown: true },
+  { section_id: 1, question: 'Section 1 Question 3', is_shown: true },
+
+  { section_id: 2, question: 'Section 2 Question 1', is_shown: true },
+  { section_id: 2, question: 'Section 2 Question 2', is_shown: true },
+  { section_id: 2, question: 'Section 2 Question 3', is_shown: true, warnings: 'Warning 1' },
+
+  { section_id: 3, question: 'Section 3 Question 1', is_shown: true },
+  { section_id: 3, question: 'Section 3 Question 2', is_shown: true },
+  { section_id: 3, question: 'Section 3 Question 3', is_shown: true, warnings: 'Warning 1' },
+
+  { section_id: 4, question: 'Section 4 Question 1', is_shown: true },
+  { section_id: 4, question: 'Section 4 Question 2', is_shown: true },
+  { section_id: 4, question: 'Section 4 Question 3', is_shown: true },
+])
