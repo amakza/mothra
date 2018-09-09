@@ -4,7 +4,7 @@ class CreateQualityPoints < ActiveRecord::Migration[5.2]
       t.integer :section_id
       t.text    :question
       t.boolean :is_shown
-      t.boolean :warnings
+      t.text    :warnings
 
       t.timestamps
     end

@@ -3,6 +3,10 @@ class Project < ActiveRecord::Base
   has_many :manager_answers
   has_many :quality_control_answers
 
+  accepts_nested_attributes_for :developer_answers,
+                                :manager_answers,
+                                :quality_control_answers
+
   validates :title,
     presence: true,
     length: { maximum: 255 }

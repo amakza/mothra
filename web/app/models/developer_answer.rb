@@ -6,6 +6,7 @@ class DeveloperAnswer < ActiveRecord::Base
       DeveloperAnswer.create({
         project_id: project_id,
         quality_point_id: point.id,
+        section_id: point.section_id,
         status: 0,
         comment: ''
       })

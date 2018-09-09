@@ -11,29 +11,14 @@
   </div>
 
   <ul class="list-unstyled components">
-    <li>
-      <a href="#">
-        <i class="fas fa-image"></i>
-        <span>Grand Design Review</span>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <i class="fas fa-briefcase"></i>
-        <span>Development</span>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <i class="fas fa-question"></i>
-        <span>Infrastructure</span>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <i class="fas fa-paper-plane"></i>
-        <span>Release</span>
-      </a>
-    </li>
+    <% icons = {image: 1, briefcase: 2, question: 3, plane: 4} %> 
+    <% Section.all.order(:id).each do |section| %>
+      <li>
+        <a href="<%= developers_path(@project.id, section.id) %>">
+          <i class="fas fa-<%= icons.key(section.id) %>"></i>
+          <span><%= section.name %></span>
+        </a>
+      </li>
+    <% end %>
   </ul>
 </nav>

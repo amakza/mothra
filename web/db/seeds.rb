@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-Service.create([
+Service.create!([
   { name: 'ポイント貯める',     code: 'PT' },
   { name: 'Wow!ポイント貯める', code: 'WP' },
   { name: 'スマートパス',       code: 'SP' },
@@ -17,14 +17,14 @@ Service.create([
   { name: 'ゲームギフト',       code: 'GG' }
 ])
 
-QualityPointSection.create([
+Section.create!([
   { name: 'Grand Design Review' },
   { name: 'Development' },
   { name: 'Infrastructure' },
   { name: 'Release' }
 ])
 
-QualityPoint.create([
+QualityPoint.create!([
   { section_id: 1, question: 'Section 1 Question 1', is_shown: true, warnings: 'Warning 1' },
   { section_id: 1, question: 'Section 1 Question 2', is_shown: true },
   { section_id: 1, question: 'Section 1 Question 3', is_shown: true },
@@ -39,5 +39,5 @@ QualityPoint.create([
 
   { section_id: 4, question: 'Section 4 Question 1', is_shown: true },
   { section_id: 4, question: 'Section 4 Question 2', is_shown: true },
-  { section_id: 4, question: 'Section 4 Question 3', is_shown: true },
+  { section_id: 4, question: 'Section 4 Question 3', is_shown: true }
 ])

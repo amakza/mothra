@@ -22,7 +22,7 @@
       <% @projects.each do |project| %>
         <tr>
           <td><%= project.code %></td>
-          <td><%= link_to project.title, developers_path %></td>
+          <td><%= link_to project.title, developers_path(project, 1) %></td>
           <td><%= project.owner %></td>
           <td><%= project.created_at.strftime('%Y-%m-%d') %></td>
           <td><%= project.updated_at.strftime('%Y-%m-%d') %></td>
