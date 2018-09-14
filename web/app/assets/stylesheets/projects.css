@@ -1,15 +1,32 @@
+.table tbody tr td {
+  border-top: 0;
+}
+.table tbody tr:nth-child(odd) td {
+  border-top: 1px solid white;
+}
+
 .project_form {
   width: 50%;
   margin: auto;
   padding: 10px;
 }
-.project_form select {
-  display: block;
-  height: 2.5em;
-  width: 100%;
-  box-shadow: 1px 3px 30px 2px #0e8496;
+
+.mode-btn-area {
+  float: right;
+}
+.mode-btn-area a {
+  margin: 0px 5px;
+}
+.mode-btn-area a:hover {
+  color: initial;
+  opacity: 0.8;
 }
 
-.project_form input {
-  box-shadow: 1px 3px 30px 2px #0e8496;
+a.csv-download {
+  color: inherit;
+  font-size: 1.5em;
+}
+a.csv-download:hover {
+  color: inherit;
+  font-size: 1.5em;
 }

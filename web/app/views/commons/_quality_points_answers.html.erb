@@ -1,0 +1,118 @@
+<strong><%= answer.object.quality_point.title %></strong>
+
+<%# TODO: Redo all this div in a better way %>
+<div class="others-status">
+  <% unless controller_name == 'developers' %>
+    <% if dev_answer = DeveloperAnswer.select('id, status, comment').where(project_id: @project.id, section_id: @section_id, quality_point_id: answer.object.quality_point_id).first %>
+      <% if !(dev_answer.status == 0 && dev_answer.comment.blank?) %>
+        <span class="answer-mode developer">DEV</span>
+        <span style="font-size: 1.3em; vertical-align: sub;">
+          <% unless dev_answer.status == 0 %>
+            <label class="answer-icon <%= Project::ANSWER_STATUS[Project::ANSWER_CODE.key(dev_answer.status)][:label_class] %>">
+              <i class="<%= Project::ANSWER_STATUS[Project::ANSWER_CODE.key(dev_answer.status)][:icon_class] %>"></i>
+            </label>
+          <% end %>
+
+          <% unless dev_answer.comment.blank? %>
+            <label class="answer-icon comment">
+              <a href="#view-comment-modal"
+                 data-toggle="modal"
+                 data-target="#view-comment-modal"
+                 data-answer-id="<%= dev_answer.id %>"
+                 data-postpoint="developers"
+                 class="js-answer-comment-view"
+               >
+
+                <i class="far fa-comment-dots"></i>
+              </a>
+            </label>
+          <% end %>
+        </span>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% unless controller_name == 'managers' %>
+    <% if mgr_answer = ManagerAnswer.select('id, status, comment').where(project_id: @project.id, section_id: @section_id, quality_point_id: answer.object.quality_point_id).first %>
+      <% if !(mgr_answer.status == 0 && mgr_answer.comment.blank?) %>
+        <span class="answer-mode manager">MGR</span>
+        <span style="font-size: 1.3em; vertical-align: sub;">
+          <% unless mgr_answer.status == 0 %>
+            <label class="answer-icon <%= Project::ANSWER_STATUS[Project::ANSWER_CODE.key(mgr_answer.status)][:label_class] %>">
+              <i class="<%= Project::ANSWER_STATUS[Project::ANSWER_CODE.key(mgr_answer.status)][:icon_class] %>"></i>
+            </label>
+          <% end %>
+
+          <% unless mgr_answer.comment.blank? %>
+            <label class="answer-icon comment">
+              <a href="#view-comment-modal"
+                 data-toggle="modal"
+                 data-target="#view-comment-modal"
+                 data-answer-id="<%= mgr_answer.id %>"
+                 data-postpoint="managers"
+                 class="answer-icon comment js-answer-comment-view"
+               >
+
+                <i class="far fa-comment-dots"></i>
+              </a>
+            </label>
+          <% end %>
+        </span>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% unless controller_name == 'quality_controls' %>
+    <% if qc_answer = QualityControlAnswer.select('id, status, comment').where(project_id: @project.id, section_id: @section_id, quality_point_id: answer.object.quality_point_id).first %>
+      <% if !(qc_answer.status == 0 && qc_answer.comment.blank?) %>
+        <span class="answer-mode quality-control">QC</span>
+        <span style="font-size: 1.3em; vertical-align: sub;">
+          <% unless qc_answer.status == 0 %>
+            <label class="answer-icon <%= Project::ANSWER_STATUS[Project::ANSWER_CODE.key(qc_answer.status)][:label_class] %>">
+              <i class="<%= Project::ANSWER_STATUS[Project::ANSWER_CODE.key(qc_answer.status)][:icon_class] %>"></i>
+            </label>
+          <% end %>
+
+          <% unless qc_answer.comment.blank? %>
+            <label class="answer-icon comment">
+              <a href="#view-comment-modal"
+                 data-toggle="modal"
+                 data-target="#view-comment-modal"
+                 data-answer-id="<%= qc_answer.id %>"
+                 data-postpoint="quality_controls"
+                 class="answer-icon comment js-answer-comment-view"
+                 style="margin: 0 10px;"
+               >
+
+                <i class="far fa-comment-dots"></i>
+              </a>
+            </label>
+          <% end %>
+        </span>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
+
+<p><%= raw answer.object.quality_point.question.gsub(/\n/, '<br>') %></p>
+
+<div class="answer-icons-area">
+  <% Project::ANSWER_STATUS.each do |k, v| %>
+    <label class="answer-icon <%= v[:label_class] %>" data-toggle="tooltip" data-placement="top" title="<%= v[:tooltip] %>">
+      <%= answer.radio_button :status, v[:status] %>
+      <i class="<%= v[:icon_class] %>"></i>
+    </label>
+  <% end %>
+
+  <a href="#write-comment-modal"
+     data-toggle="modal"
+     data-target="#write-comment-modal"
+     data-answer-id="<%= answer.object.id %>"
+     data-postpoint="<%= controller_name %>"
+     class="answer-icon comment js-answer-comment-btn<%= ' opaque' if answer.object.comment.blank? %>"
+   >
+    <i class="far fa-comment-dots"></i>
+  </a>
+</div>
+
+<div class="line"></div>

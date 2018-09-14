@@ -17,21 +17,21 @@ Parameters:
       - t2.medium
   KeyName:
     Type: AWS::EC2::KeyPair::KeyName
-    # 変更しなければならない
-    Default: mayama-tech-lab
+    Description: gamera's instance key
+    Default: gamera
   SecurityGroupId:
     Type: CommaDelimitedList
-    Default: sg-00d5c1835e332eb75
+    Default: sg-0bd83903cddd53053
   SubnetId:
     Type: AWS::EC2::Subnet::Id
-    # 要変更
-    Default: subnet-02bf0d91aaad682f0
+    Default: subnet-05f8294ff59f67724
+    Description: AZ has used A zone 
   ECSCluster:
     Type: String
     Default: GameraCluster
   EC2Role:
     Type: String
-    Default: gamera-ecs-role-EC2Role-1JBVTVMWLYOOE
+    Default: gamera-ecs-role-EC2Role-JX29WY19XOHF
 
 Resources:
 

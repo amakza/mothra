@@ -1,5 +1,8 @@
 class QualityControlAnswer < ActiveRecord::Base
   belongs_to :project
+  belongs_to :quality_point
+
+  before_save :strip_comment
 
   def QualityControlAnswer.create_answer_set(project_id)
     QualityPoint.all_shown.each do |point|
@@ -11,6 +14,11 @@ class QualityControlAnswer < ActiveRecord::Base
         comment: ''
       })
     end
+  end
+
+private
+  def strip_comment
+    self.comment.strip!
   end
 
 end

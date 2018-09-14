@@ -8,16 +8,16 @@ Parameters:
     Default: GameraCluster
   ELBTarget:
     Type: String
-    Default: arn:aws:elasticloadbalancing:ap-northeast-1:899763172859:targetgroup/GameraALBTargets/a6071d68a7b92af7
+    Default: arn:aws:elasticloadbalancing:ap-northeast-1:748552758785:targetgroup/GameraALBTargets/3964c0ba73661461
   TaskDefinition:
     Type: String
-    Default: gamera-ecs-task-GameraWeb-1L07Y9JAQISEZ:1
+    Default: gamera-ecs-task-GameraWeb-1DVL1HPOXQBYZ:1
   ContainerName:
     Type: String
     Default: gameraweb
   ECSRole:
     Type: String
-    Default: gamera-ecs-role-ECSServiceRole-KKQ199IFBY6F
+    Default: gamera-ecs-role-ECSServiceRole-1ADOR8AUMSP60
   
 Resources:
   Rails:

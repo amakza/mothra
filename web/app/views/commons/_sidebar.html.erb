@@ -1,9 +1,9 @@
 <!-- Sidebar  -->
-<nav id="sidebar">
+<nav id="sidebar" <%= 'class=active' if cookies[:aymishd] == 'close' %>>
   <div class="sidebar-header">
     <a href="<%= root_path %>"><h3>Gamera</h3></a>
     <a href="<%= root_path %>"><strong>GM</strong></a>
-    <button type="button" id="sidebarCollapse" class="navbar-btn">
+    <button type="button" id="sidebarCollapse" class="navbar-btn<%= ' active' if cookies[:aymishd] == 'close' %>">
       <span></span>
       <span></span>
       <span></span>
@@ -13,8 +13,8 @@
   <ul class="list-unstyled components">
     <% icons = {image: 1, briefcase: 2, question: 3, plane: 4} %> 
     <% Section.all.order(:id).each do |section| %>
-      <li>
-        <a href="<%= developers_path(@project.id, section.id) %>">
+      <li <%= 'class=active' if @section_id == section.id %>>
+        <a href="/<%= controller_name %>/<%= @project.id %>/<%= section.id %>">
           <i class="fas fa-<%= icons.key(section.id) %>"></i>
           <span><%= section.name %></span>
         </a>

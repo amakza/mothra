@@ -1,19 +1,19 @@
-<h1 class="answer-mode developer">Developer MODE</h1>
+<h1 class="answer-mode manager">Manager MODE</h1>
 
 <div id="main">
-  <%= form_for @project, url: developers_path do |f| %>
+  <%= form_for @project, url: managers_path do |f| %>
     <div class="mb-3">
       <span class="sub-title">Project:&nbsp;</span><%= @project.title %>
       <div class="name-text">
-        <span class="sub-title">Developer:&nbsp;</span>
-        <%= f.text_field :developer_name, max_length: 255, class: 'form-control' %>
+        <span class="sub-title">Manager:&nbsp;</span>
+        <%= f.text_field :manager_name, max_length: 255, class: 'form-control' %>
       </div>
     </div>
 
     <div class="line"></div>
 
     <div>
-      <%= f.fields_for :developer_answers, f.object.developer_answers.where(section_id: @section_id) do |answer| %>
+      <%= f.fields_for :manager_answers, f.object.manager_answers.where(section_id: @section_id) do |answer| %>
 
         <%= render partial: '/commons/quality_points_answers', locals: {answer: answer} %>
 

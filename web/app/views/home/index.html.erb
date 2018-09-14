@@ -5,14 +5,14 @@
 </div>
 
 <div class="table-responsive">
-  <table class='table'>
+  <table class='table projects-table'>
     <thead>
       <tr>
         <td>管理番号</td>
         <td>案件名</td>
         <td>責任者</td>
         <td>作成日</td>
-        <td>最終更新日</td>
+        <td>更新日</td>
         <td>ステータス</td>
         <td></td>
       </tr>
@@ -22,35 +22,27 @@
       <% @projects.each do |project| %>
         <tr>
           <td><%= project.code %></td>
-          <td><%= link_to project.title, developers_path(project, 1) %></td>
+          <td style="width: 45%;"><%= project.title %></td>
           <td><%= project.owner %></td>
           <td><%= project.created_at.strftime('%Y-%m-%d') %></td>
           <td><%= project.updated_at.strftime('%Y-%m-%d') %></td>
-          <td><%= project.status %></td>
-          <td></td>
+          <td><%= get_status project.id %></td>
+        </tr>
+        <tr>
+          <td  colspan="6">
+            <div class="mode-btn-area">
+              <a href="<%= developers_path(project, 1) %>" class="answer-mode developer ok">Developer</a>
+              <a href="<%= managers_path(project, 1) %>" class="answer-mode manager revision">Manager</a>
+              <a href="<%= quality_controls_path(project, 1) %>" class="answer-mode quality-control error">Quality Control</a>
+              <a href="<%= projects_download_csv_path(project) %>" class="csv-download"><i class="fas fa-download"></i></a>
+            </div>
+          </td>
         </tr>
       <% end %>
     </tbody>
   </table>
-<div>
-
-<div class="line"></div>
-
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-<div class="line"></div>
-
-<div class="btn-area">
-  <button class="register button">登録</button>
-  <button class="save button">保存</button>
-  <button class="cancel button">キャンセル</button>
-  <button class="generic button">戻る</button>
-  <button class="warning button">注意</button>
 </div>
 
 <div class="btn-area">
-  <button class="register button">Create</button>
-  <button class="save button">Save</button>
-  <button class="cancel button">Warning</button>
-  <button class="generic button">Back</button>
-  <button class="warning button">Caution</button>
+  <%= paginate @projects %>
 </div>

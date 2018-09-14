@@ -4,24 +4,23 @@ Description: "Use check list information in Gamera ECS ELB"
 Parameters:
 
   InstanceA:
-    Type: String
-    Default: i-0448fc03bf21a8b0b
+    Type: AWS::EC2::Instance::Id
+    Default: i-0bed958849a076e10
   VpcId:
-    Type: List<AWS::EC2::VPC::Id>
-    Default: vpc-0fa4e93d6824a1819
+    Type: AWS::EC2::VPC::Id
+    Default: vpc-0914afbbdd372687a
   SubnetIdA:
-    Type: List<AWS::EC2::Subnet::Id>
-    Default: subnet-02bf0d91aaad682f0
+    Type: AWS::EC2::Subnet::Id
+    Default: subnet-05f8294ff59f67724
   SubnetIdC:
-    Type: List<AWS::EC2::Subnet::Id>
-    Default: subnet-09f18555b064d746a
+    Type: AWS::EC2::Subnet::Id
+    Default: subnet-080d8e8a519ce63c0
   SecurityGroupId:
-    Type: List<AWS::EC2::SecurityGroup::Id>
-    Default: sg-00d5c1835e332eb75
-  # まだ入れていない(tech-lab)
-  SSL:
+    Type: AWS::EC2::SecurityGroup::Id
+    Default: sg-0bd83903cddd53053
+  AlbOriginSSLCertificateId:
     Type: String
-    Default: arn:aws:acm:ap-northeast-1:899763172859:certificate/3b7797ef-fb42-46ca-87af-d7c9792a1138
+    Default: arn:aws:acm:ap-northeast-1:748552758785:certificate/e6a49c30-b018-4d07-929b-e0d165041eed
 
 Resources:
 
@@ -42,8 +41,11 @@ Resources:
         - TargetGroupArn: !Ref GameraALBTargets
           Type: forward
       LoadBalancerArn: !Ref GameraFrontALB
-      Port: '80'
-      Protocol: HTTP
+      Port: "443"
+      Protocol: HTTPS
+      Certificates:
+        - CertificateArn: !Ref AlbOriginSSLCertificateId
+      SslPolicy: "ELBSecurityPolicy-2016-08"
   GameraALBListenerRule:
     Type: AWS::ElasticLoadBalancingV2::ListenerRule
     DependsOn: GameraALBListener
@@ -61,7 +63,7 @@ Resources:
     DependsOn: GameraFrontALB
     Properties:
       Name: GameraALBTargets
-      Port: 80
+      Port: "80"
       Protocol: HTTP
       VpcId: !Ref VpcId
       HealthCheckPath: /
@@ -72,4 +74,4 @@ Resources:
       HealthyThresholdCount: 5
       Targets:
         - Id: !Ref InstanceA
-          Port: '80'
+          Port: "80"

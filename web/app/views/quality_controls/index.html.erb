@@ -1,0 +1,26 @@
+<h1 class="answer-mode quality-control">Quality Control MODE</h1>
+
+<div id="main">
+  <%= form_for @project, url: quality_controls_path do |f| %>
+    <div class="mb-3">
+      <span class="sub-title">Project:&nbsp;</span><%= @project.title %>
+      <div class="name-text">
+        <span class="sub-title">Quality Control:&nbsp;</span>
+        <%= f.text_field :quality_control_name, max_length: 255, class: 'form-control' %>
+      </div>
+    </div>
+
+    <div class="line"></div>
+
+    <div>
+      <%= f.fields_for :quality_control_answers, f.object.quality_control_answers.where(section_id: @section_id) do |answer| %>
+
+        <%= render partial: '/commons/quality_points_answers', locals: {answer: answer} %>
+
+      <% end %>
+    </div>
+
+  <% end %>
+</div>
+
+<%= render partial: '/commons/comment_modal' %>

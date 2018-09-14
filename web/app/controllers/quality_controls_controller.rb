@@ -1,15 +1,15 @@
-class DevelopersController < ApplicationController
+class QualityControlsController < ApplicationController
   before_action :set_project, only: :index
   before_action :set_section, only: :index
 
-  # GET /developers/<project.id>/<section.id>
+  # GET /quality_controls/<project.id>/<section.id>
   def index
   end
 
-  # PATCH /developers/<developer_answer.id>
+  # PATCH /quality_controls/<quality_control_answer.id>
   # JSON
   def update
-    answer = DeveloperAnswer.find(params[:id])
+    answer = QualityControlAnswer.find(params[:id])
 
     if answer.update(answer_params)
       render json: { comment: !answer.comment.blank? }, status: :ok
@@ -18,8 +18,8 @@ class DevelopersController < ApplicationController
     end
   end
 
-  # GET /developers/get_comment/<developer_answer.id>
-  # Returns the developer_answer comment
+  # GET /quality_controls/get_comment/<quality_control_answer.id>
+  # Returns the quality_control_answer comment
   # JSON
   def get_comment
     if params[:id].blank?
@@ -27,12 +27,12 @@ class DevelopersController < ApplicationController
       return
     end
 
-    answer = DeveloperAnswer.where(id: params[:id]).first
+    answer = QualityControlAnswer.where(id: params[:id]).first
 
     if answer.blank?
       render json: { errors: 'Answer not found' }, status: 422
     else
-      render json: { comment: answer.comment }, status: :ok
+     render json: { comment: answer.comment }, status: :ok
     end
 
   end

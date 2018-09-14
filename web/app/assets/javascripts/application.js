@@ -15,14 +15,88 @@
 //= require turbolinks
 //= require_tree .
 
-$(document).ready(function () {
+$(function () {
   // Collapse sidebar
   $('#sidebarCollapse').on('click', function () {
-    $('#sidebar').toggleClass('active');
+    $sidebar = $('#sidebar');
+    if ($sidebar.hasClass('active')) {
+      Cookies.set('aymishd', 'open');
+    } else {
+      Cookies.set('aymishd', 'close');
+    }
+    $sidebar.toggleClass('active');
     $(this).toggleClass('active');
   });
 
-  // Pusing save button
+  // Initialize tooltips
+  $('[data-toggle="tooltip"]').tooltip(
+    {delay: {show: 1000, hide: 100}}
+  );
+
+  // Fetch comment and display in modal textbox
+  $(".js-answer-comment-btn").click(function() {
+    cont = $(this).data('postpoint');
+    id = $(this).data('answer-id');
+    target = $(this).data('target')
+
+    $.ajax({
+      url: '/' + cont + '/get_comment/' + id,
+      type: 'GET',
+      success: function(xhr) {
+        $(target + ' textarea').val(xhr.comment);
+        $(target + ' #answer_comment_id').val(id);
+      },
+      error: function(xhr) {
+        console.log(xhr);
+        alert($.parseJSON(xhr.responseText).errors);
+      }
+    });
+  });
+
+  // Fetch comment and display in modal paragraph
+  $(".js-answer-comment-view").click(function() {
+    cont = $(this).data('postpoint');
+    id = $(this).data('answer-id');
+    target = $(this).data('target')
+
+    $.ajax({
+      url: '/' + cont + '/get_comment/' + id,
+      type: 'GET',
+      success: function(xhr) {
+        $(target + ' p').text(xhr.comment);
+      },
+      error: function(xhr) {
+        console.log(xhr);
+        alert($.parseJSON(xhr.responseText).errors);
+      }
+    });
+  });
+
+  //Modal save comment
+  $('#write-comment-modal').on('hide.bs.modal', function() {
+    cont = $(this).data('postpoint');
+    point_id = $('#answer_comment_id').val();
+    comment = $(this).find('textarea').val();
+
+    $.ajax({
+      url: '/' + cont + '/' + point_id,
+      data: { 'answer[comment]': comment},
+      type: 'PATCH',
+      success: function(xhr) {
+        if(xhr.comment == true) {
+          $('.js-answer-comment-btn[data-answer-id="'+point_id+'"]').removeClass('opaque');
+        } else {
+          $('.js-answer-comment-btn[data-answer-id="'+point_id+'"]').addClass('opaque');
+        }
+      },
+      error: function(xhr) {
+        console.log(xhr);
+        alert($.parseJSON(xhr.responseText).errors);
+      }
+    })
+  });
+
+  // Pulsing save button
   $('.pulse-save').on({
     'click': function(e) {
       $(this).trigger('reset');
